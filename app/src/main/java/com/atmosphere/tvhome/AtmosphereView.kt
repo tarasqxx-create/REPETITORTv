@@ -206,7 +206,7 @@ class AtmosphereView(context: Context, private val preview: Boolean = false) : V
         if (width > 0 && height > 0) {
             if (layerChanged) {
                 val old = layer
-                layer = buildLayer()
+                layer = renderStaticLayer()
                 if (themeChanged && animateTransition && !preview && old != null) {
                     prevLayer?.recycle()
                     prevLayer = old
@@ -230,7 +230,7 @@ class AtmosphereView(context: Context, private val preview: Boolean = false) : V
         transition = 1f
         if (w > 0 && h > 0) {
             s = if (preview) 0.5f else w / 1920f
-            layer = buildLayer()
+            layer = renderStaticLayer()
             rebuildParticles()
         } else {
             layer = null
@@ -260,7 +260,7 @@ class AtmosphereView(context: Context, private val preview: Boolean = false) : V
 
     // ------------------------------------------------------------------ статичный слой
 
-    private fun buildLayer(): Bitmap? {
+    private fun renderStaticLayer(): Bitmap? {
         if (width <= 0 || height <= 0) return null
         val ls = min(1f, 1920f / width)
         val lw = max(1, (width * ls).toInt())
